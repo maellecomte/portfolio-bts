@@ -1,0 +1,59 @@
+- Accueil
+    - Photo
+    - CV
+- A propos
+    - Parcours
+        - collège seiches/ le loir
+        - lycée st aubin (la barronerie) bac pro sn
+        - mds, bts sio slam
+    - Expérience
+        - stages lycée
+            - médiaclinic ( réparation pc/tel)
+            - pc anjou tiercé (réparation/dépannage pc et install de cam)
+            - eolane angers (dépannage machine de test)
+        - alternance 
+            - département (excel à balle, bdd)
+            - anjou acheminement (admin du parc / dev d'app)
+    - Compétences
+        - html, css
+        - python
+        - docker
+        - cloudflare
+        - windows (client - server)
+        - linux (client - server)
+        - wireshark
+        - git / github
+        - suite office
+        - cisco packet tracer / filius
+    - Soft Skills
+        - esprit d'équipe
+        - entreprenant 
+        - assidu
+        - créatif
+        - à l'écoute
+- Projets
+    - Tableau E4/E5 compétences
+    - Projet 1
+        - ubuntu serveur
+    - Projet 2
+        - affichage dynamique
+    - Projet 3
+        - badgeuse
+            - web
+            - python (dur)
+    - Projet 4
+        - raspberry pi
+            - site web
+            - llama 3
+            - n8n
+            - portainer
+- Formation
+    - Certifications
+        - rgpd
+    - Diplômes 
+        - bac pro sn
+        - brevet des collèges
+- Veille technologique
+- Contact
+    - https://github.com/maellecomte
+    - https://www.linkedin.com/in/maellecomte/
