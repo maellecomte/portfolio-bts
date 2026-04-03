@@ -36,6 +36,7 @@
   /*========== z index ==========*/
   --z-tooltip: 10;
   --z-fixed: 100;
+  --z-modal: 1000;
 }
 
 /*========== Responsive typography ==========*/
@@ -451,15 +452,41 @@ img {
   border: 1px solid hsla(var(--hue), 60%, 64%, .1);
   padding: 2rem 1.5rem;
   border-radius: 1rem;
-  transition: border-color .4s;
+  transition: border-color .4s, box-shadow .4s;
   width: 100%;
   min-height: 320px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  text-align: left;
 }
 
 .projects__card:hover {
   border-color: var(--first-color);
+}
+
+.projects__card:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 3px;
+}
+
+.projects__hint {
+  display: flex;
+  align-items: center;
+  column-gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: var(--smaller-font-size);
+  color: var(--text-color-light);
+}
+
+.projects__hint i {
+  font-size: 1rem;
+  color: var(--first-color);
+}
+
+.projects__detail {
+  display: none;
 }
 
 .projects__content {
@@ -547,6 +574,141 @@ img {
   border-color: var(--first-color);
   background-color: var(--first-color);
   color: var(--title-color);
+}
+
+/*=============== MODALE PROJET ===============*/
+body.modal-open {
+  overflow: hidden;
+}
+
+.project-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.project-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.project-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: hsla(240, 100%, 2%, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+
+.project-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 38rem;
+  max-height: min(88vh, 44rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background-color: var(--container-color);
+  border: 1px solid hsla(var(--hue), 60%, 64%, .22);
+  border-radius: 1rem;
+  padding: 2.25rem 1.75rem 1.75rem;
+  box-shadow: 0 1.5rem 3rem hsla(0, 0%, 0%, .35);
+}
+
+.project-modal__close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: hsla(240, 8%, 12%, 1);
+  border: 1px solid hsla(var(--hue), 60%, 64%, .2);
+  color: var(--title-color);
+  font-size: 1.35rem;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+}
+
+.project-modal__close:hover {
+  border-color: var(--first-color);
+  color: var(--first-color);
+}
+
+.project-modal__category {
+  font-size: var(--small-font-size);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--first-color);
+  margin-bottom: 0.35rem;
+}
+
+.project-modal__heading {
+  font-size: var(--h1-font-size);
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.project-modal__tech-label {
+  font-size: var(--smaller-font-size);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-color-light);
+  margin-bottom: 0.35rem;
+}
+
+.project-modal__tech {
+  font-size: var(--small-font-size);
+  line-height: 1.6;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid hsla(var(--hue), 60%, 64%, .12);
+}
+
+.project-modal__body {
+  font-size: var(--small-font-size);
+  line-height: 1.75;
+  color: var(--text-color);
+}
+
+.project-modal__body h3 {
+  font-family: var(--second-font);
+  font-size: var(--normal-font-size);
+  color: var(--title-color);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.project-modal__body h3:first-child {
+  margin-top: 0;
+}
+
+.project-modal__body ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0.5rem 0 0;
+}
+
+.project-modal__body li {
+  margin-bottom: 0.4rem;
+}
+
+.project-modal__body p {
+  margin: 0 0 0.75rem;
 }
 
 /*=============== WORK ===============*/

@@ -51,14 +51,6 @@ const swiperProjects = new Swiper('.projects__swiper', {
    touchAngle: 30,
    touchReleaseOnEdges: true,
 
-   /* Trackpad / souris : geste vertical (2 doigts haut-bas) ou horizontal → défile les slides (forceToAxis: false = défaut Swiper) */
-   mousewheel: {
-      enabled: true,
-      forceToAxis: false,
-      sensitivity: 1,
-      thresholdDelta: 4,
-   },
-
    navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
@@ -79,6 +71,161 @@ const swiperProjects = new Swiper('.projects__swiper', {
       },
    },
 });
+
+/* Trackpad / molette : écouteur wheel explicite { passive: false } (le module mousewheel Swiper échoue souvent sur pavé tactile Windows / certains navigateurs) */
+(function bindProjectsTrackpadWheel() {
+   const el = document.querySelector('.projects__swiper');
+   if (!el || !swiperProjects) return;
+
+   let acc = 0;
+   let flushTimer = null;
+   const WHEEL_THRESHOLD = 18;
+   const FLUSH_MS = 45;
+
+   const flush = () => {
+      flushTimer = null;
+      if (Math.abs(acc) < WHEEL_THRESHOLD) {
+         acc = 0;
+         return;
+      }
+      if (acc > 0) {
+         swiperProjects.slideNext();
+      } else {
+         swiperProjects.slidePrev();
+      }
+      acc = 0;
+   };
+
+   el.addEventListener(
+      'wheel',
+      (e) => {
+         let dy = e.deltaY;
+         let dx = e.deltaX;
+         if (e.deltaMode === 1) {
+            dy *= 16;
+            dx *= 16;
+         } else if (e.deltaMode === 2) {
+            dy *= window.innerHeight || 800;
+            dx *= window.innerWidth || 800;
+         }
+         if (e.shiftKey && Math.abs(dx) <= Math.abs(dy)) {
+            dx = dy;
+            dy = 0;
+         }
+         const dominant = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+         if (!dominant) return;
+
+         e.preventDefault();
+         acc += dominant;
+         if (flushTimer) clearTimeout(flushTimer);
+         flushTimer = setTimeout(flush, FLUSH_MS);
+      },
+      { passive: false, capture: true }
+   );
+})();
+
+/*=============== MODALE DÉTAIL PROJET ===============*/
+const projectModal = document.getElementById('project-modal');
+const projectModalBody = document.getElementById('project-modal-body');
+const projectModalCategory = document.getElementById('project-modal-category');
+const projectModalHeading = document.getElementById('project-modal-heading');
+const projectModalTech = document.getElementById('project-modal-tech');
+
+let projectModalLastFocus = null;
+
+const closeProjectModal = () => {
+   if (!projectModal || !projectModal.classList.contains('is-open')) return;
+   projectModal.classList.remove('is-open');
+   projectModal.setAttribute('aria-hidden', 'true');
+   document.body.classList.remove('modal-open');
+   if (projectModalBody) projectModalBody.innerHTML = '';
+
+   if (projectModalLastFocus && typeof projectModalLastFocus.focus === 'function') {
+      projectModalLastFocus.focus();
+   }
+   projectModalLastFocus = null;
+};
+
+const openProjectModal = (card) => {
+   if (!projectModal || !card) return;
+   const detail = card.querySelector('.projects__detail');
+   const title = card.querySelector('.projects__title');
+   const subtitle = card.querySelector('.projects__subtitle');
+   const desc = card.querySelector('.projects__description');
+
+   projectModalLastFocus = document.activeElement;
+   if (projectModalCategory) projectModalCategory.textContent = title ? title.textContent.trim() : '';
+   if (projectModalHeading) projectModalHeading.innerHTML = subtitle ? subtitle.innerHTML : '';
+   if (projectModalTech) projectModalTech.textContent = desc ? desc.textContent.trim() : '';
+   if (projectModalBody) projectModalBody.innerHTML = detail ? detail.innerHTML : '';
+
+   projectModal.classList.add('is-open');
+   projectModal.setAttribute('aria-hidden', 'false');
+   document.body.classList.add('modal-open');
+
+   const closeBtn = projectModal.querySelector('.project-modal__close');
+   if (closeBtn) closeBtn.focus();
+};
+
+if (projectModal) {
+   projectModal.querySelectorAll('[data-project-modal-close]').forEach((el) => {
+      el.addEventListener('click', () => closeProjectModal());
+   });
+
+   document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && projectModal.classList.contains('is-open')) {
+         e.preventDefault();
+         closeProjectModal();
+      }
+   });
+
+   document.querySelectorAll('.projects__card').forEach((card) => {
+      const state = { active: false, x: 0, y: 0, moved: false };
+
+      const finishOpenGesture = (cancelled) => {
+         if (!state.active) return;
+         state.active = false;
+         if (!cancelled && !state.moved) {
+            openProjectModal(card);
+         }
+      };
+
+      card.addEventListener('pointerdown', (e) => {
+         if (e.pointerType === 'mouse' && e.button !== 0) return;
+         state.active = true;
+         state.x = e.clientX;
+         state.y = e.clientY;
+         state.moved = false;
+
+         const onUp = () => {
+            document.removeEventListener('pointerup', onUp);
+            document.removeEventListener('pointercancel', onCancel);
+            finishOpenGesture(false);
+         };
+         const onCancel = () => {
+            document.removeEventListener('pointerup', onUp);
+            document.removeEventListener('pointercancel', onCancel);
+            finishOpenGesture(true);
+         };
+         document.addEventListener('pointerup', onUp);
+         document.addEventListener('pointercancel', onCancel);
+      });
+
+      card.addEventListener('pointermove', (e) => {
+         if (!state.active) return;
+         if (Math.abs(e.clientX - state.x) > 12 || Math.abs(e.clientY - state.y) > 12) {
+            state.moved = true;
+         }
+      });
+
+      card.addEventListener('keydown', (e) => {
+         if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openProjectModal(card);
+         }
+      });
+   });
+}
 
 /*=============== SERVICES ACCORDION (un seul panneau ouvert) ===============*/
 const skillsSection = document.getElementById('skills');

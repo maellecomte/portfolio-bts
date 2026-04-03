@@ -141,7 +141,9 @@
             <div class="projects__swiper swiper">
                <div class="swiper-wrapper">
                   <!-- Project 1 -->
-                  <article class="projects__card swiper-slide">
+                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                     aria-haspopup="dialog"
+                     aria-label="Voir le détail du projet Ubuntu Serveur">
                      <div class="projects__content">
                         <div class="projects__number">
                            <h1>01</h1>
@@ -150,11 +152,28 @@
                         <h2 class="projects__subtitle">Ubuntu <br> Serveur</h2>
                         <p class="projects__subtitle-tech">Technologies utilisées</p>
                         <p class="projects__description">Linux, Ubuntu Server, Apache, SSH, DNS, DHCP, configuration réseau et administration système.</p>
+                        <p class="projects__hint"><i class="ri-information-line" aria-hidden="true"></i> Cliquer pour le détail</p>
+                     </div>
+                     <div class="projects__detail" hidden>
+                        <h3>Contexte</h3>
+                        <p>Mise en place et administration d’un serveur sous Ubuntu Server dans un contexte de réseau local ou de petite infrastructure, avec services web et résolution de noms.</p>
+                        <h3>Réalisation</h3>
+                        <ul>
+                           <li>Installation et durcissement de base du système (comptes, mises à jour, pare-feu)</li>
+                           <li>Configuration d’Apache pour l’hébergement de sites ou d’outils internes</li>
+                           <li>Mise en service SSH pour l’administration à distance sécurisée</li>
+                           <li>Configuration DNS et DHCP pour l’attribution d’adresses et la résolution de noms</li>
+                           <li>Documentation des choix techniques et des procédures de maintenance</li>
+                        </ul>
+                        <h3>Environnement technique</h3>
+                        <p>Linux, Ubuntu Server, Apache, OpenSSH, services réseau (DNS, DHCP), ligne de commande et bonnes pratiques d’administration.</p>
                      </div>
                   </article>
 
                   <!-- Project 2 -->
-                  <article class="projects__card swiper-slide">
+                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                     aria-haspopup="dialog"
+                     aria-label="Voir le détail du projet Affichage dynamique">
                      <div class="projects__content">
                         <div class="projects__number">
                            <h1>02</h1>
@@ -163,11 +182,27 @@
                         <h2 class="projects__subtitle">Affichage <br> Dynamique</h2>
                         <p class="projects__subtitle-tech">Technologies utilisées</p>
                         <p class="projects__description">HTML, CSS, JavaScript, gestion de contenu dynamique et affichage temps réel.</p>
+                        <p class="projects__hint"><i class="ri-information-line" aria-hidden="true"></i> Cliquer pour le détail</p>
+                     </div>
+                     <div class="projects__detail" hidden>
+                        <h3>Contexte</h3>
+                        <p>Application web ou tableau de bord où les informations affichées évoluent sans rechargement complet de la page, à partir de données mises à jour côté serveur ou via API.</p>
+                        <h3>Réalisation</h3>
+                        <ul>
+                           <li>Structure sémantique HTML et mise en forme responsive (CSS)</li>
+                           <li>Logique côté client en JavaScript (récupération de données, rafraîchissement de l’interface)</li>
+                           <li>Gestion d’un contenu dynamique (templates, états d’affichage, messages utilisateur)</li>
+                           <li>Tests sur différents navigateurs et tailles d’écran</li>
+                        </ul>
+                        <h3>Environnement technique</h3>
+                        <p>HTML5, CSS3, JavaScript (ES6+), éventuellement fetch / API REST selon le contexte du projet.</p>
                      </div>
                   </article>
 
                   <!-- Project 3 -->
-                  <article class="projects__card swiper-slide">
+                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                     aria-haspopup="dialog"
+                     aria-label="Voir le détail du projet Badgeuse Web et Python">
                      <div class="projects__content">
                         <div class="projects__number">
                            <h1>03</h1>
@@ -176,11 +211,28 @@
                         <h2 class="projects__subtitle">Badgeuse <br> Web & Python</h2>
                         <p class="projects__subtitle-tech">Technologies utilisées</p>
                         <p class="projects__description">Python, HTML, CSS, JavaScript, base de données, interface web et application hardware.</p>
+                        <p class="projects__hint"><i class="ri-information-line" aria-hidden="true"></i> Cliquer pour le détail</p>
+                     </div>
+                     <div class="projects__detail" hidden>
+                        <h3>Contexte</h3>
+                        <p>Système de pointage (badgeuse) combinant une interface web, une couche applicative en Python et un stockage des données pour tracer les passages ou présences.</p>
+                        <h3>Réalisation</h3>
+                        <ul>
+                           <li>Modélisation des données et base adaptée aux enregistrements de badgeage</li>
+                           <li>Développement du back-end en Python (API ou logique métier)</li>
+                           <li>Interface utilisateur web (HTML, CSS, JavaScript)</li>
+                           <li>Intégration avec du matériel ou périphériques selon le besoin (lecteur, GPIO, etc.)</li>
+                           <li>Scénarios de test et gestion des erreurs utilisateur</li>
+                        </ul>
+                        <h3>Environnement technique</h3>
+                        <p>Python, HTML, CSS, JavaScript, SGBD, intégration matérielle selon le contexte du projet.</p>
                      </div>
                   </article>
 
                   <!-- Project 4 -->
-                  <article class="projects__card swiper-slide">
+                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                     aria-haspopup="dialog"
+                     aria-label="Voir le détail du projet Raspberry Pi multi-services">
                      <div class="projects__content">
                         <div class="projects__number">
                            <h1>04</h1>
@@ -189,11 +241,28 @@
                         <h2 class="projects__subtitle">Raspberry Pi <br> Multi-services</h2>
                         <p class="projects__subtitle-tech">Technologies utilisées</p>
                         <p class="projects__description">Raspberry Pi, Docker, Portainer, Llama 3 (IA), n8n (automatisation), site web, hébergement local.</p>
+                        <p class="projects__hint"><i class="ri-information-line" aria-hidden="true"></i> Cliquer pour le détail</p>
+                     </div>
+                     <div class="projects__detail" hidden>
+                        <h3>Contexte</h3>
+                        <p>Plateforme locale sur Raspberry Pi regroupant plusieurs services conteneurisés ou applicatifs : supervision, automatisation, expérimentation IA et présence web sur le réseau local.</p>
+                        <h3>Réalisation</h3>
+                        <ul>
+                           <li>Installation de l’OS et préparation du Pi (stockage, réseau, sécurité de base)</li>
+                           <li>Déploiement de conteneurs avec Docker et administration via Portainer</li>
+                           <li>Mise en place de workflows avec n8n (automatisations, connecteurs)</li>
+                           <li>Expérimentation autour d’un modèle Llama&nbsp;3 en local (contraintes matérielles, usage)</li>
+                           <li>Hébergement d’un site ou d’outils accessibles sur le LAN</li>
+                        </ul>
+                        <h3>Environnement technique</h3>
+                        <p>Raspberry Pi, Docker, Portainer, n8n, Llama&nbsp;3, stack web, réseau local.</p>
                      </div>
                   </article>
 
                   <!-- Project 5 - Tableau E4/E5 -->
-                  <article class="projects__card swiper-slide">
+                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                     aria-haspopup="dialog"
+                     aria-label="Voir le détail du projet Tableau E4 E5">
                      <div class="projects__content">
                         <div class="projects__number">
                            <h1>05</h1>
@@ -202,6 +271,19 @@
                         <h2 class="projects__subtitle">Tableau <br> E4/E5</h2>
                         <p class="projects__subtitle-tech">Compétences BTS</p>
                         <p class="projects__description">Tableau récapitulatif des compétences E4 et E5 du BTS SIO SLAM, regroupant l'ensemble des situations professionnelles.</p>
+                        <p class="projects__hint"><i class="ri-information-line" aria-hidden="true"></i> Cliquer pour le détail</p>
+                     </div>
+                     <div class="projects__detail" hidden>
+                        <h3>Contexte</h3>
+                        <p>Document de synthèse BTS SIO (SLAM) reliant les blocs de compétences E4 et E5 aux situations professionnelles vécues en formation et en alternance.</p>
+                        <h3>Contenu</h3>
+                        <ul>
+                           <li>Vue d’ensemble des compétences officielles couvertes par le diplôme</li>
+                           <li>Lien entre chaque compétence et les projets ou missions réalisés</li>
+                           <li>Préparation à la présentation oral / dossier professionnel</li>
+                        </ul>
+                        <h3>Objectif</h3>
+                        <p>Faciliter la préparation du jury et montrer la cohérence du parcours technique (développement, administration, gestion de projet) sur l’ensemble du cursus.</p>
                      </div>
                   </article>
                </div>
@@ -530,6 +612,22 @@
       </p>
       <p class="footer__year">&#169; <span id="year"></span></p>
    </footer>
+
+   <!--==================== MODALE DÉTAIL PROJET ====================-->
+   <div id="project-modal" class="project-modal" aria-hidden="true" role="dialog" aria-modal="true"
+      aria-labelledby="project-modal-heading">
+      <div class="project-modal__backdrop" data-project-modal-close tabindex="-1"></div>
+      <div class="project-modal__panel">
+         <button type="button" class="project-modal__close" data-project-modal-close aria-label="Fermer la fenêtre">
+            <i class="ri-close-line" aria-hidden="true"></i>
+         </button>
+         <p class="project-modal__category" id="project-modal-category"></p>
+         <h2 class="project-modal__heading" id="project-modal-heading"></h2>
+         <p class="project-modal__tech-label">Technologies &amp; compétences</p>
+         <p class="project-modal__tech" id="project-modal-tech"></p>
+         <div class="project-modal__body" id="project-modal-body"></div>
+      </div>
+   </div>
 
    <!--=============== SCROLLREVEAL ===============-->
    <script src="assets/js/scrollreveal.min.js"></script>
