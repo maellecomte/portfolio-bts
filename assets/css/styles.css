@@ -430,13 +430,14 @@ img {
 
 .projects__container {
   position: relative;
+  overflow: visible;
 }
 
 .projects__scroll {
   display: flex;
   flex-wrap: nowrap;
   gap: 1.25rem;
-  overflow-x: auto;
+  overflow-x: scroll;
   overflow-y: hidden;
   padding-bottom: 1.25rem;
   scroll-snap-type: x proximity;
@@ -462,8 +463,8 @@ img {
 }
 
 .projects__card {
-  flex: 0 0 280px;
-  min-width: 280px;
+  flex: 0 0 75vw;
+  max-width: 320px;
   background-color: var(--container-color);
   border: 1px solid hsla(var(--hue), 60%, 64%, .1);
   padding: 2rem 1.5rem;
@@ -476,6 +477,13 @@ img {
   text-align: left;
   white-space: normal;
   scroll-snap-align: start;
+}
+
+@media screen and (min-width: 768px) {
+  .projects__card {
+    flex: 0 0 300px;
+    max-width: none;
+  }
 }
 
 .projects__card:hover {
@@ -1212,6 +1220,7 @@ body.modal-open {
 
   .projects__card {
     flex: 0 0 340px;
+    max-width: none;
     padding: 2.5rem 2rem;
   }
 
