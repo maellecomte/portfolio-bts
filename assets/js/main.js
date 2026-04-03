@@ -103,6 +103,21 @@ if (projectModal) {
    });
 }
 
+/*=============== SCROLL HORIZONTAL PROJETS (wheel → scroll latéral) ===============*/
+const projectsScroll = document.querySelector('.projects__scroll');
+if (projectsScroll) {
+  projectsScroll.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) < 5) return;
+    const maxScroll = projectsScroll.scrollWidth - projectsScroll.clientWidth;
+    if (maxScroll <= 0) return;
+    const atStart = projectsScroll.scrollLeft <= 0 && e.deltaY < 0;
+    const atEnd = projectsScroll.scrollLeft >= maxScroll - 1 && e.deltaY > 0;
+    if (atStart || atEnd) return;
+    e.preventDefault();
+    projectsScroll.scrollLeft += e.deltaY;
+  }, { passive: false });
+}
+
 /*=============== SERVICES ACCORDION (un seul panneau ouvert) ===============*/
 const skillsSection = document.getElementById('skills');
 

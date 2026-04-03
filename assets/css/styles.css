@@ -595,7 +595,7 @@ body.modal-open {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 38rem;
+  max-width: 52rem;
   max-height: min(88vh, 44rem);
   overflow-y: auto;
   overflow-x: hidden;
@@ -705,6 +705,29 @@ body.modal-open {
 
 .project-modal__body p {
   margin: 0 0 0.75rem;
+}
+
+.project-modal__github {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--first-color);
+  color: var(--first-color);
+  font-size: var(--small-font-size);
+  font-weight: var(--font-semi-bold);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.project-modal__github i {
+  font-size: 1.15rem;
+}
+
+.project-modal__github:hover {
+  background-color: var(--first-color);
+  color: var(--title-color);
 }
 
 /*=============== WORK ===============*/
@@ -1066,7 +1089,6 @@ body.modal-open {
     touch-action: pan-y pinch-zoom;
   }
 
-  /* manipulation sur un header fixed peut empêcher le scroll vertical si le geste commence dans la barre */
   .header {
     touch-action: pan-y pinch-zoom;
   }
@@ -1086,6 +1108,15 @@ body.modal-open {
     font-size: var(--small-font-size);
   }
 
+  .project-modal__panel {
+    padding: 1.75rem 1.25rem 1.25rem;
+    max-height: 90vh;
+    max-height: 90dvh;
+  }
+
+  .services__container {
+    grid-template-columns: 1fr;
+  }
 }
 
 /*=============== BREAKPOINTS ===============*/
@@ -1234,6 +1265,13 @@ body.modal-open {
 
   .veille__container {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Modale responsive large */
+@media screen and (min-width: 1150px) {
+  .project-modal__panel {
+    padding: 3rem 2.5rem 2rem;
   }
 }
 
