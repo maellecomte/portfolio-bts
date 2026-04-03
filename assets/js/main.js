@@ -37,10 +37,19 @@ const scrollHeader = () => {
 window.addEventListener('scroll', scrollHeader);
 
 /*=============== SWIPER PROJECTS ===============*/
+/* Sur téléphone : pas de glisser sur le carrousel (bouton suivant uniquement) → évite que Swiper « garde » le tactile */
+const projectsAllowTouchMove = !window.matchMedia('(max-width: 767px)').matches;
+
 const swiperProjects = new Swiper('.projects__swiper', {
    loop: true,
    spaceBetween: 20,
    grabCursor: true,
+   allowTouchMove: projectsAllowTouchMove,
+   /* Par défaut Swiper met touchStartPreventDefault: true → bloque le scroll vertical au doigt (iOS/Android) */
+   touchStartPreventDefault: false,
+   nested: true,
+   touchAngle: 30,
+   touchReleaseOnEdges: true,
 
    navigation: {
       nextEl: '.swiper-button-next',
@@ -121,7 +130,12 @@ const sr = ScrollReveal({
    duration: 2000,
    delay: 300,
    reset: false,
+   /* Désactive les animations ScrollReveal sur mobile : moins de transforms = scroll tactile fiable */
+   mobile: false,
 });
+
+/* ScrollReveal pose body.style.height = "100%" en inline : sur mobile Safari ça peut figer le scroll malgré le CSS */
+document.body.style.removeProperty('height');
 
 // Home
 sr.reveal('.home__greeting', { origin: 'left' });
