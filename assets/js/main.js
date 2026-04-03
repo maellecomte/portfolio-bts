@@ -193,10 +193,8 @@ sr.reveal('.home__social', { origin: 'bottom', delay: 800 });
 sr.reveal('.home__cv', { origin: 'bottom', delay: 800 });
 
 // À propos
-sr.reveal('.about__eyebrow', { origin: 'bottom', delay: 100 });
-sr.reveal('.about__heading', { origin: 'bottom', delay: 200 });
-sr.reveal('.about__divider', { origin: 'bottom', delay: 280 });
-sr.reveal('.about__text', { origin: 'bottom', delay: 360 });
+sr.reveal('#about .section__title', { origin: 'top' });
+sr.reveal('.about__panel', { origin: 'bottom', delay: 200 });
 
 // Projects
 sr.reveal('.projects__container', { origin: 'bottom' });
