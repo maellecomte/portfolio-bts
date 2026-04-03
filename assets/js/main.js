@@ -192,9 +192,8 @@ sr.reveal('.home__profession', { origin: 'right', delay: 400 });
 sr.reveal('.home__social', { origin: 'bottom', delay: 800 });
 sr.reveal('.home__cv', { origin: 'bottom', delay: 800 });
 
-// About
-sr.reveal('.about__image', { origin: 'left' });
-sr.reveal('.about__info', { origin: 'right' });
+// About (intégré dans home)
+sr.reveal('.home__about', { origin: 'bottom', delay: 1000 });
 
 // Projects
 sr.reveal('.projects__container', { origin: 'bottom' });
