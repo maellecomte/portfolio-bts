@@ -51,6 +51,14 @@ const swiperProjects = new Swiper('.projects__swiper', {
    touchAngle: 30,
    touchReleaseOnEdges: true,
 
+   /* Trackpad / souris : geste vertical (2 doigts haut-bas) ou horizontal → défile les slides (forceToAxis: false = défaut Swiper) */
+   mousewheel: {
+      enabled: true,
+      forceToAxis: false,
+      sensitivity: 1,
+      thresholdDelta: 4,
+   },
+
    navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
