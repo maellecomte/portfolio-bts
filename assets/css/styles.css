@@ -703,8 +703,21 @@ body.modal-open {
   margin: 0.5rem 0 0;
 }
 
+.project-modal__body ol {
+  list-style: decimal;
+  padding-left: 1.35rem;
+  margin: 0.5rem 0 0;
+}
+
 .project-modal__body li {
   margin-bottom: 0.4rem;
+}
+
+.project-modal__body code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+  color: var(--first-color-light);
+  word-break: break-word;
 }
 
 .project-modal__body p {
