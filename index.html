@@ -170,62 +170,98 @@
                      </div>
                   </article>
 
-                  <!-- Project 2 -->
+                  <!-- Project 2 — affichage-dynamique-v2 -->
                   <article class="projects__card swiper-slide" tabindex="0" role="button"
                      aria-haspopup="dialog"
-                     aria-label="Voir le détail du projet Affichage dynamique">
+                     aria-label="Voir le détail du projet Affichage dynamique v2 (digital signage)">
                      <div class="projects__content">
                         <div class="projects__number">
                            <h1>02</h1>
                         </div>
                         <h3 class="projects__title">Web</h3>
-                        <h2 class="projects__subtitle">Affichage <br> Dynamique</h2>
+                        <h2 class="projects__subtitle">Affichage <br> dynamique v2</h2>
                         <p class="projects__subtitle-tech">Technologies utilisées</p>
-                        <p class="projects__description">HTML, CSS, JavaScript, gestion de contenu dynamique et affichage temps réel.</p>
+                        <p class="projects__description">Digital signage : API NestJS, SPA React 18 (TypeScript, Vite, Tailwind), PostgreSQL 16 (TypeORM), fichiers sur MinIO (S3), temps réel Socket.IO, Docker Compose + Nginx.</p>
                         <p class="projects__hint"><i class="ri-information-line" aria-hidden="true"></i> Cliquer pour le détail</p>
                      </div>
                      <div class="projects__detail" hidden>
-                        <h3>Contexte</h3>
-                        <p>Application web ou tableau de bord où les informations affichées évoluent sans rechargement complet de la page, à partir de données mises à jour côté serveur ou via API.</p>
-                        <h3>Réalisation</h3>
+                        <h3>Nature du projet</h3>
+                        <p>Application de <strong>digital signage</strong> : une <strong>API métier NestJS</strong> et une <strong>SPA React 18</strong> (TypeScript, Vite, Tailwind), servie derrière <strong>Nginx</strong>, avec persistance <strong>PostgreSQL 16</strong> via <strong>TypeORM</strong> et stockage des médias binaires sur <strong>MinIO</strong> (API compatible S3, pilote <code>aws-sdk</code> côté backend).</p>
+                        <h3>Déploiement</h3>
+                        <p><strong>Docker Compose</strong> orchestre en général : base de données, MinIO, backend, frontend (build statique + Nginx dans l’image ou selon Dockerfile), reverse proxy Nginx exposé (souvent port 80). Selon la branche, d’autres services peuvent figurer dans le compose (ex. brique réseau type pfSense).</p>
+                        <h3>Backend (NestJS)</h3>
+                        <p>Architecture modulaire (<code>src/modules/*</code>) : authentification <strong>JWT / Passport</strong>, médias (upload <strong>Multer</strong>, stockage piloté par <code>STORAGE_DRIVER: s3</code>), playlists et items, <strong>canaux</strong> (écrans), planning, analytics, audit, device tokens, health, etc.</p>
                         <ul>
-                           <li>Structure sémantique HTML et mise en forme responsive (CSS)</li>
-                           <li>Logique côté client en JavaScript (récupération de données, rafraîchissement de l’interface)</li>
-                           <li>Gestion d’un contenu dynamique (templates, états d’affichage, messages utilisateur)</li>
-                           <li>Tests sur différents navigateurs et tailles d’écran</li>
+                           <li><strong>Temps réel</strong> : <code>@nestjs/websockets</code> + <strong>Socket.IO</strong> pour pousser les mises à jour vers les clients.</li>
+                           <li><strong>Sécurité</strong> : compte admin unique par instance ; routes <strong>publiques</strong> orientées <em>player</em> (infos canal, items de playlist, rendu média, validation de token, heartbeat) face aux routes <strong>protégées JWT</strong> pour l’interface d’administration.</li>
                         </ul>
-                        <h3>Environnement technique</h3>
-                        <p>HTML5, CSS3, JavaScript (ES6+), éventuellement fetch / API REST selon le contexte du projet.</p>
+                        <h3>Frontend (React)</h3>
+                        <p>Pages métier : dashboard des écrans, médiathèque, playlists, planning, analytics, paramètres, <strong>PlayerView</strong> en mode kiosk, éditeur d’écran, médias dynamiques. État avec <strong>Zustand</strong>, requêtes HTTP avec <strong>Axios</strong> (<code>lib/api.ts</code>), WebSocket dédié aux canaux. <strong>Service Worker</strong> pour stratégie de cache / usage offline (selon la doc du dépôt).</p>
+                        <h3>Flux de données clés</h3>
+                        <ol class="projects__detail-list projects__detail-list--ol">
+                           <li><strong>Admin authentifié</strong> — CRUD médias, playlists, canaux, planning via les routes <code>/api</code>.</li>
+                           <li><strong>Player</strong> (non authentifié ou via token) — URLs publiques, chargement de la playlist, affichage des médias (dont <strong>PDF</strong> via react-pdf / pdf.js).</li>
+                           <li><strong>Heartbeat HTTP</strong> périodique depuis le player pour marquer un canal en ligne ou hors ligne côté serveur.</li>
+                        </ol>
+                        <h3>Configuration sensible</h3>
+                        <p>Backend : DSN Postgres, <code>JWT_SECRET</code>, endpoint et identifiants S3/MinIO, <code>PUBLIC_MEDIA_URL</code> et <code>WS_PUBLIC_URL</code> (doivent refléter l’URL telle que vue par le navigateur). Frontend buildé avec variables Vite : <code>VITE_API_URL</code>, <code>VITE_WS_URL</code>, <code>VITE_BACKEND_URL</code> — une mauvaise IP ou un mauvais schéma <code>ws</code>/<code>wss</code> casse médias ou WebSocket.</p>
+                        <h3>Intégrations optionnelles</h3>
+                        <p>Clés pour OpenAI, Hugging Face, Unsplash, OpenWeatherMap peuvent être injectées côté backend pour widgets IA, images ou météo, selon ce qui est réellement branché dans les modules concernés.</p>
+                        <h3>En résumé</h3>
+                        <p>Stack <strong>SPA + API REST + WebSocket + Postgres + object storage</strong>, packagée pour un déploiement <em>on-premise</em>, orientée écrans physiques en <strong>kiosk</strong> avec suivi de présence par <strong>heartbeat</strong>.</p>
                      </div>
                   </article>
 
                   <!-- Project 3 -->
                   <article class="projects__card swiper-slide" tabindex="0" role="button"
                      aria-haspopup="dialog"
-                     aria-label="Voir le détail du projet Badgeuse Web et Python">
+                     aria-label="Voir le détail du projet Badgeuse chauffeurs">
                      <div class="projects__content">
                         <div class="projects__number">
                            <h1>03</h1>
                         </div>
                         <h3 class="projects__title">Application</h3>
-                        <h2 class="projects__subtitle">Badgeuse <br> Web & Python</h2>
+                        <h2 class="projects__subtitle">Badgeuse <br> chauffeurs</h2>
                         <p class="projects__subtitle-tech">Technologies utilisées</p>
-                        <p class="projects__description">Python, HTML, CSS, JavaScript, base de données, interface web et application hardware.</p>
+                        <p class="projects__description">Python, Raspberry Pi, SQLite, CustomTkinter, sync HTTP vers API (POST /sync), badge iButton ou saisie clavier, configuration centralisée (config.py).</p>
                         <p class="projects__hint"><i class="ri-information-line" aria-hidden="true"></i> Cliquer pour le détail</p>
                      </div>
                      <div class="projects__detail" hidden>
-                        <h3>Contexte</h3>
-                        <p>Système de pointage (badgeuse) combinant une interface web, une couche applicative en Python et un stockage des données pour tracer les passages ou présences.</p>
-                        <h3>Réalisation</h3>
+                        <h3>Objectif métier</h3>
+                        <p>Application de <strong>pointage des chauffeurs</strong> sur site : enregistrement local des passages <strong>ENTRÉE</strong> / <strong>SORTIE</strong>, puis remontée vers une API distante pour le suivi centralisé (multi-sites possible côté serveur).</p>
+                        <h3>Flux utilisateur</h3>
+                        <ol class="projects__detail-list projects__detail-list--ol">
+                           <li>Lecture du badge (<strong>iButton</strong> ou <strong>identifiant au clavier</strong>).</li>
+                           <li>Choix de l’action (entrée / sortie) et contexte jour si prévu (<em>groupe</em>, <em>entreprise</em>, <em>site</em>).</li>
+                           <li>Enregistrement immédiat en <strong>SQLite</strong> avec horodatage local.</li>
+                           <li>Synchronisation en arrière-plan : <strong>POST</strong> vers <code>/sync</code> ou <code>/api/sync</code> avec authentification (ex. <code>X-API-KEY</code>), gestion des erreurs et retry.</li>
+                           <li>Retour visuel pour l’opérateur : succès, erreur réseau ou données refusées.</li>
+                        </ol>
+                        <h3>Architecture logicielle</h3>
+                        <p>Découpage modulaire type :</p>
                         <ul>
-                           <li>Modélisation des données et base adaptée aux enregistrements de badgeage</li>
-                           <li>Développement du back-end en Python (API ou logique métier)</li>
-                           <li>Interface utilisateur web (HTML, CSS, JavaScript)</li>
-                           <li>Intégration avec du matériel ou périphériques selon le besoin (lecteur, GPIO, etc.)</li>
-                           <li>Scénarios de test et gestion des erreurs utilisateur</li>
+                           <li><strong>config.py</strong> — paramètres : <code>SITE_ID</code>, <code>WEBHOOK_URL</code>, <code>API_KEY</code>, <code>DB_PATH</code>, timeouts.</li>
+                           <li><strong>main.py</strong> — point d’entrée : initialisation DB, lancement UI et boucle de sync.</li>
+                           <li><strong>badgeuse_ui.py</strong> — interface <strong>CustomTkinter</strong> mode kiosk : grande horloge, écrans d’état, digicode, changement de site si prévu.</li>
+                           <li><strong>hardware_manager.py</strong> — abstraction lecteur / clavier, normalisation de l’identifiant badge.</li>
+                           <li><strong>database_manager.py</strong> — insertions, lecture des pointages non synchronisés, mise à jour du statut.</li>
+                           <li><strong>sync_manager.py</strong> — client HTTP, construction du JSON, codes de retour, stratégie de nouvelle tentative.</li>
+                           <li><strong>session_manager.py</strong> — contexte « journée » : groupe, entreprise, site courant alimentant le payload API.</li>
                         </ul>
-                        <h3>Environnement technique</h3>
-                        <p>Python, HTML, CSS, JavaScript, SGBD, intégration matérielle selon le contexte du projet.</p>
+                        <h3>Données envoyées à l’API (exemple)</h3>
+                        <p>Payload typique : <code>id_badge</code>, <code>site_source</code>, <code>action</code>, <code>timestamp_local</code>, <code>groupe_du_jour</code>, <code>entreprise_du_jour</code>. Normalisation métier : <strong>ENTRÉE → ARRIVÉE</strong>, <strong>SORTIE → DÉPART</strong> ; identifiant badge nettoyé (casse, espaces) selon le contrat serveur.</p>
+                        <h3>Réseau &amp; robustesse</h3>
+                        <ul>
+                           <li>Détection <strong>online / offline</strong> pour adapter l’UI et la fréquence de sync.</li>
+                           <li>Boucle de synchronisation : traitement des enregistrements en attente par petits lots.</li>
+                           <li>Réponses HTTP : succès (2xx) → marquage synchronisé ; <strong>400 / 404</strong> → erreur de requête (souvent sans retry identique) ; <strong>401 / 403</strong> → clé ou droits ; <strong>429</strong> → respect du débit (backoff) ; <strong>5xx</strong> / timeout → nouvelles tentatives puis file d’attente conservée en local.</li>
+                        </ul>
+                        <h3>Base SQLite</h3>
+                        <p>Table des pointages avec indicateur <strong>is_synced</strong> : <code>0</code> = en attente d’envoi ou échec à traiter, <code>1</code> = accusé réception serveur. Requêtes clés : insertion après scan, sélection des lignes non sync ordonnées, mise à jour après POST réussi ou journalisation de la dernière erreur.</p>
+                        <h3>Interface opérateur</h3>
+                        <p>Machine d’états du type <strong>IDLE</strong> → <strong>SCANNED</strong> → <strong>SUCCESS</strong> ou <strong>ERROR</strong> : feedback lisible, timeouts de retour à l’accueil, gestion des badges inconnus selon la règle métier (refus ou enregistrement signalé).</p>
+                        <h3>Exploitation</h3>
+                        <p>En cas de « ça ne part plus » : vérifier <code>WEBHOOK_URL</code>, la clé API, les logs <em>sync_manager</em>, et une requête de test <code>curl</code> en POST JSON depuis le même réseau ; contrôler en base le nombre de lignes avec <code>is_synced = 0</code>.</p>
                      </div>
                   </article>
 
