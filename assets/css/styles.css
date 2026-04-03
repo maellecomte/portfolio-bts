@@ -253,7 +253,7 @@ img {
 /*=============== HOME ===============*/
 .home {
   padding-top: 6rem;
-  padding-bottom: 2rem;
+  padding-bottom: 3.5rem;
 }
 
 .home__container {
@@ -389,22 +389,52 @@ img {
   transform: translateY(-.25rem);
 }
 
-/*=============== HOME ABOUT ===============*/
-.home__about {
-  grid-column: 1 / -1;
-  text-align: center;
-  max-width: 640px;
-  justify-self: center;
+/*=============== ABOUT ===============*/
+.about {
+  padding-block: 4rem 5rem;
 }
 
-.home__about-text {
+.about__inner {
+  max-width: 36rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.about__eyebrow {
+  font-size: var(--smaller-font-size);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--first-color);
+  margin-bottom: 0.75rem;
+}
+
+.about__heading {
+  font-family: var(--second-font);
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-semi-bold);
+  color: var(--title-color);
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+.about__divider {
+  width: 3rem;
+  height: 2px;
+  margin: 0 auto 1.75rem;
+  background: linear-gradient(90deg, transparent, var(--first-color), transparent);
+  opacity: 0.85;
+}
+
+.about__text {
   font-size: var(--normal-font-size);
-  line-height: 1.8;
+  line-height: 1.85;
   color: var(--text-color);
 }
 
-.home__about-text b {
+.about__text b {
   color: var(--first-color);
+  font-weight: var(--font-medium);
 }
 
 /*=============== PROJECTS ===============*/
@@ -1221,10 +1251,6 @@ body.modal-open {
 
   .home__social-link {
     font-size: 1.5rem;
-  }
-
-  .home__about {
-    max-width: 720px;
   }
 
   .projects__card {
