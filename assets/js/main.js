@@ -138,6 +138,42 @@ if (projectsScroll) {
   }, { passive: false });
 }
 
+/*=============== NAVIGATION BOUTONS PROJETS (style carrousel) ===============*/
+const projectsNavPrev = document.getElementById('projects-nav-prev');
+const projectsNavNext = document.getElementById('projects-nav-next');
+
+if (projectsScroll && projectsNavPrev && projectsNavNext) {
+  const getProjectsScrollStep = () => {
+    const card = projectsScroll.querySelector('.projects__card');
+    const styles = getComputedStyle(projectsScroll);
+    const gap = parseFloat(styles.columnGap || styles.gap) || 0;
+    return card ? card.offsetWidth + gap : Math.round(projectsScroll.clientWidth * 0.85);
+  };
+
+  const updateProjectsNavState = () => {
+    const max = projectsScroll.scrollWidth - projectsScroll.clientWidth;
+    if (max <= 1) {
+      projectsNavPrev.disabled = true;
+      projectsNavNext.disabled = true;
+      return;
+    }
+    projectsNavPrev.disabled = projectsScroll.scrollLeft <= 1;
+    projectsNavNext.disabled = projectsScroll.scrollLeft >= max - 1;
+  };
+
+  projectsNavPrev.addEventListener('click', () => {
+    projectsScroll.scrollBy({ left: -getProjectsScrollStep(), behavior: 'smooth' });
+  });
+
+  projectsNavNext.addEventListener('click', () => {
+    projectsScroll.scrollBy({ left: getProjectsScrollStep(), behavior: 'smooth' });
+  });
+
+  projectsScroll.addEventListener('scroll', updateProjectsNavState, { passive: true });
+  window.addEventListener('resize', updateProjectsNavState, { passive: true });
+  updateProjectsNavState();
+}
+
 /*=============== SERVICES ACCORDION (un seul panneau ouvert) ===============*/
 const skillsSection = document.getElementById('skills');
 
