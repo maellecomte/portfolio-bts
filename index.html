@@ -138,10 +138,9 @@
          </h2>
 
          <div class="projects__container container">
-            <div class="projects__swiper swiper">
-               <div class="swiper-wrapper">
+            <div class="projects__scroll">
                   <!-- Project 1 -->
-                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                  <article class="projects__card" tabindex="0" role="button"
                      aria-haspopup="dialog"
                      aria-label="Voir le détail du projet Ubuntu Serveur">
                      <div class="projects__content">
@@ -171,7 +170,7 @@
                   </article>
 
                   <!-- Project 2 — affichage-dynamique-v2 -->
-                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                  <article class="projects__card" tabindex="0" role="button"
                      aria-haspopup="dialog"
                      aria-label="Voir le détail du projet Affichage dynamique v2 (digital signage)">
                      <div class="projects__content">
@@ -213,7 +212,7 @@
                   </article>
 
                   <!-- Project 3 -->
-                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                  <article class="projects__card" tabindex="0" role="button"
                      aria-haspopup="dialog"
                      aria-label="Voir le détail du projet Badgeuse chauffeurs">
                      <div class="projects__content">
@@ -230,7 +229,7 @@
                         <h3>Objectif métier</h3>
                         <p>Système de <strong>badgeuse multi-sites</strong> pour les chauffeurs (ex. Saint-Barthélemy, Saumur, Cholet) : pointage sur le terrain via un <strong>Raspberry Pi</strong> et pilotage / visualisation via une <strong>application web</strong>.</p>
                         <h3>Application sur Raspberry Pi (terrain)</h3>
-                        <p>Logiciel local en <strong>Python</strong> avec interface <strong>CustomTkinter</strong> (mode kiosk) : lecture du badge uniquement par <strong>lecteur iButton</strong> (pas de saisie clavier du numéro de badge). Enregistrement des passages <strong>entrée / sortie</strong> en <strong>SQLite</strong> avec horodatage, puis synchronisation vers le serveur par <strong>POST</strong> sécurisé.</p>
+                        <p>Logiciel local en <strong>Python</strong> avec interface <strong>CustomTkinter</strong> (mode kiosk) : lecture du badge par <strong>lecteur iButton</strong>. Enregistrement des passages <strong>entrée / sortie</strong> en <strong>SQLite</strong> avec horodatage, puis synchronisation vers le serveur par <strong>POST</strong> sécurisé.</p>
                         <p>Découpage type : <code>config.py</code> (<code>SITE_ID</code>, URL API, <code>API_KEY</code>, <code>DB_PATH</code>…), <code>main.py</code>, <code>badgeuse_ui.py</code>, <code>hardware_manager.py</code> (iButton), <code>database_manager.py</code>, <code>sync_manager.py</code>, <code>session_manager.py</code>. Indicateur <strong>is_synced</strong> pour la file d’attente ; retry et gestion des codes HTTP côté client de sync.</p>
                         <h3>Plateforme web (serveur)</h3>
                         <p><strong>PostgreSQL</strong> pour les chauffeurs et les logs de pointage ; <strong>FastAPI</strong> (API REST + docs Swagger) ; <strong>React + Vite + Tailwind</strong> (interface dark mode). Déploiement avec <strong>Docker Compose</strong> (<code>.env</code> : <code>POSTGRES_PASSWORD</code>, <code>API_KEY</code>, <code>LOG_LEVEL</code>, etc.). <strong>n8n</strong> branché sur la base pour des rapports Excel hebdomadaires. CORS configuré pour le frontend.</p>
@@ -256,7 +255,7 @@
                   </article>
 
                   <!-- Project 4 -->
-                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                  <article class="projects__card" tabindex="0" role="button"
                      aria-haspopup="dialog"
                      aria-label="Voir le détail du projet Raspberry Pi multi-services">
                      <div class="projects__content">
@@ -286,7 +285,7 @@
                   </article>
 
                   <!-- Project 5 - Tableau E4/E5 -->
-                  <article class="projects__card swiper-slide" tabindex="0" role="button"
+                  <article class="projects__card" tabindex="0" role="button"
                      aria-haspopup="dialog"
                      aria-label="Voir le détail du projet Tableau E4 E5">
                      <div class="projects__content">
@@ -312,14 +311,6 @@
                         <p>Faciliter la préparation du jury et montrer la cohérence du parcours technique (développement, administration, gestion de projet) sur l’ensemble du cursus.</p>
                      </div>
                   </article>
-               </div>
-
-               <!-- Swiper navigation -->
-               <div class="projects__navigation">
-                  <div class="swiper-button-next">
-                     <i class="ri-arrow-right-line"></i>
-                  </div>
-               </div>
             </div>
          </div>
       </section>
