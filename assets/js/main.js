@@ -103,75 +103,39 @@ if (projectModal) {
    });
 }
 
-/*=============== SCROLL HORIZONTAL PROJETS (wheel → scroll latéral) ===============*/
+/*=============== PROJETS : défilement horizontal uniquement natif + boutons ===============*/
 const projectsScroll = document.querySelector('.projects__scroll');
-if (projectsScroll) {
-  projectsScroll.addEventListener('wheel', (e) => {
-    const maxScroll = projectsScroll.scrollWidth - projectsScroll.clientWidth;
-    if (maxScroll <= 0) return;
-
-    let dy = e.deltaY;
-    let dx = e.deltaX;
-    /* Molette classique : deltaMode « ligne » (1) avec petits deltaY — sans ça le seuil < 5 les ignorait */
-    if (e.deltaMode === 1) {
-      const linePx = 32;
-      dy *= linePx;
-      dx *= linePx;
-    } else if (e.deltaMode === 2) {
-      dy *= projectsScroll.clientHeight;
-      dx *= projectsScroll.clientWidth;
-    }
-
-    let scrollDelta = dy;
-    if (e.shiftKey) {
-      scrollDelta = Math.abs(dx) >= Math.abs(dy) ? dx : dy;
-    }
-
-    if (Math.abs(scrollDelta) < 1) return;
-
-    const atStart = projectsScroll.scrollLeft <= 0 && scrollDelta < 0;
-    const atEnd = projectsScroll.scrollLeft >= maxScroll - 1 && scrollDelta > 0;
-    if (atStart || atEnd) return;
-
-    e.preventDefault();
-    projectsScroll.scrollLeft += scrollDelta;
-  }, { passive: false });
-}
-
-/*=============== NAVIGATION BOUTONS PROJETS (style carrousel) ===============*/
 const projectsNavPrev = document.getElementById('projects-nav-prev');
 const projectsNavNext = document.getElementById('projects-nav-next');
 
 if (projectsScroll && projectsNavPrev && projectsNavNext) {
-  const getProjectsScrollStep = () => {
-    const card = projectsScroll.querySelector('.projects__card');
-    const styles = getComputedStyle(projectsScroll);
-    const gap = parseFloat(styles.columnGap || styles.gap) || 0;
-    return card ? card.offsetWidth + gap : Math.round(projectsScroll.clientWidth * 0.85);
-  };
+   const scrollStep = () => {
+      const card = projectsScroll.querySelector('.projects__card');
+      const gap = parseFloat(getComputedStyle(projectsScroll).gap) || 0;
+      return card ? card.offsetWidth + gap : Math.round(projectsScroll.clientWidth * 0.85);
+   };
 
-  const updateProjectsNavState = () => {
-    const max = projectsScroll.scrollWidth - projectsScroll.clientWidth;
-    if (max <= 1) {
-      projectsNavPrev.disabled = true;
-      projectsNavNext.disabled = true;
-      return;
-    }
-    projectsNavPrev.disabled = projectsScroll.scrollLeft <= 1;
-    projectsNavNext.disabled = projectsScroll.scrollLeft >= max - 1;
-  };
+   const syncNavButtons = () => {
+      const max = projectsScroll.scrollWidth - projectsScroll.clientWidth;
+      if (max <= 1) {
+         projectsNavPrev.disabled = true;
+         projectsNavNext.disabled = true;
+         return;
+      }
+      projectsNavPrev.disabled = projectsScroll.scrollLeft <= 1;
+      projectsNavNext.disabled = projectsScroll.scrollLeft >= max - 1;
+   };
 
-  projectsNavPrev.addEventListener('click', () => {
-    projectsScroll.scrollBy({ left: -getProjectsScrollStep(), behavior: 'smooth' });
-  });
+   projectsNavPrev.addEventListener('click', () => {
+      projectsScroll.scrollBy({ left: -scrollStep(), behavior: 'smooth' });
+   });
+   projectsNavNext.addEventListener('click', () => {
+      projectsScroll.scrollBy({ left: scrollStep(), behavior: 'smooth' });
+   });
 
-  projectsNavNext.addEventListener('click', () => {
-    projectsScroll.scrollBy({ left: getProjectsScrollStep(), behavior: 'smooth' });
-  });
-
-  projectsScroll.addEventListener('scroll', updateProjectsNavState, { passive: true });
-  window.addEventListener('resize', updateProjectsNavState, { passive: true });
-  updateProjectsNavState();
+   projectsScroll.addEventListener('scroll', syncNavButtons, { passive: true });
+   window.addEventListener('resize', syncNavButtons, { passive: true });
+   syncNavButtons();
 }
 
 /*=============== SERVICES ACCORDION (un seul panneau ouvert) ===============*/
