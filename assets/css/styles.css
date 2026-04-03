@@ -431,18 +431,6 @@ img {
   pointer-events: none;
 }
 
-.about__icon {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-}
-
-.about__icon i {
-  font-size: 2.25rem;
-  color: var(--first-color);
-  opacity: 0.95;
-}
-
 .about__text {
   font-size: var(--normal-font-size);
   line-height: 1.85;
@@ -458,10 +446,6 @@ img {
 }
 
 @media screen and (min-width: 768px) {
-  .about__icon i {
-    font-size: 2.5rem;
-  }
-
   .about__panel {
     max-width: 30rem;
     padding: 2rem 1.85rem;
