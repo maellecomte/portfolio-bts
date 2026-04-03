@@ -223,45 +223,35 @@
                         <h3 class="projects__title">Application</h3>
                         <h2 class="projects__subtitle">Badgeuse <br> chauffeurs</h2>
                         <p class="projects__subtitle-tech">Technologies utilisées</p>
-                        <p class="projects__description">Python, Raspberry Pi, SQLite, CustomTkinter, sync HTTP vers API (POST /sync), badge iButton ou saisie clavier, configuration centralisée (config.py).</p>
+                        <p class="projects__description">Terminal Raspberry Pi (Python, SQLite, CustomTkinter, lecteur iButton) + plateforme web Docker : FastAPI, React (Vite, Tailwind), PostgreSQL, sync <code>POST /sync</code>, n8n pour rapports.</p>
                         <p class="projects__hint"><i class="ri-information-line" aria-hidden="true"></i> Cliquer pour le détail</p>
                      </div>
                      <div class="projects__detail" hidden>
                         <h3>Objectif métier</h3>
-                        <p>Application de <strong>pointage des chauffeurs</strong> sur site : enregistrement local des passages <strong>ENTRÉE</strong> / <strong>SORTIE</strong>, puis remontée vers une API distante pour le suivi centralisé (multi-sites possible côté serveur).</p>
-                        <h3>Flux utilisateur</h3>
-                        <ol class="projects__detail-list projects__detail-list--ol">
-                           <li>Lecture du badge (<strong>iButton</strong> ou <strong>identifiant au clavier</strong>).</li>
-                           <li>Choix de l’action (entrée / sortie) et contexte jour si prévu (<em>groupe</em>, <em>entreprise</em>, <em>site</em>).</li>
-                           <li>Enregistrement immédiat en <strong>SQLite</strong> avec horodatage local.</li>
-                           <li>Synchronisation en arrière-plan : <strong>POST</strong> vers <code>/sync</code> ou <code>/api/sync</code> avec authentification (ex. <code>X-API-KEY</code>), gestion des erreurs et retry.</li>
-                           <li>Retour visuel pour l’opérateur : succès, erreur réseau ou données refusées.</li>
-                        </ol>
-                        <h3>Architecture logicielle</h3>
-                        <p>Découpage modulaire type :</p>
+                        <p>Système de <strong>badgeuse multi-sites</strong> pour les chauffeurs (ex. Saint-Barthélemy, Saumur, Cholet) : pointage sur le terrain via un <strong>Raspberry Pi</strong> et pilotage / visualisation via une <strong>application web</strong>.</p>
+                        <h3>Application sur Raspberry Pi (terrain)</h3>
+                        <p>Logiciel local en <strong>Python</strong> avec interface <strong>CustomTkinter</strong> (mode kiosk) : lecture du badge uniquement par <strong>lecteur iButton</strong> (pas de saisie clavier du numéro de badge). Enregistrement des passages <strong>entrée / sortie</strong> en <strong>SQLite</strong> avec horodatage, puis synchronisation vers le serveur par <strong>POST</strong> sécurisé.</p>
+                        <p>Découpage type : <code>config.py</code> (<code>SITE_ID</code>, URL API, <code>API_KEY</code>, <code>DB_PATH</code>…), <code>main.py</code>, <code>badgeuse_ui.py</code>, <code>hardware_manager.py</code> (iButton), <code>database_manager.py</code>, <code>sync_manager.py</code>, <code>session_manager.py</code>. Indicateur <strong>is_synced</strong> pour la file d’attente ; retry et gestion des codes HTTP côté client de sync.</p>
+                        <h3>Plateforme web (serveur)</h3>
+                        <p><strong>PostgreSQL</strong> pour les chauffeurs et les logs de pointage ; <strong>FastAPI</strong> (API REST + docs Swagger) ; <strong>React + Vite + Tailwind</strong> (interface dark mode). Déploiement avec <strong>Docker Compose</strong> (<code>.env</code> : <code>POSTGRES_PASSWORD</code>, <code>API_KEY</code>, <code>LOG_LEVEL</code>, etc.). <strong>n8n</strong> branché sur la base pour des rapports Excel hebdomadaires. CORS configuré pour le frontend.</p>
+                        <h3>Web app — pages principales</h3>
                         <ul>
-                           <li><strong>config.py</strong> — paramètres : <code>SITE_ID</code>, <code>WEBHOOK_URL</code>, <code>API_KEY</code>, <code>DB_PATH</code>, timeouts.</li>
-                           <li><strong>main.py</strong> — point d’entrée : initialisation DB, lancement UI et boucle de sync.</li>
-                           <li><strong>badgeuse_ui.py</strong> — interface <strong>CustomTkinter</strong> mode kiosk : grande horloge, écrans d’état, digicode, changement de site si prévu.</li>
-                           <li><strong>hardware_manager.py</strong> — abstraction lecteur / clavier, normalisation de l’identifiant badge.</li>
-                           <li><strong>database_manager.py</strong> — insertions, lecture des pointages non synchronisés, mise à jour du statut.</li>
-                           <li><strong>sync_manager.py</strong> — client HTTP, construction du JSON, codes de retour, stratégie de nouvelle tentative.</li>
-                           <li><strong>session_manager.py</strong> — contexte « journée » : groupe, entreprise, site courant alimentant le payload API.</li>
+                           <li><strong>Dashboard</strong> — cartes avec le nombre de présents par site (rafraîchissement typique ~30&nbsp;s).</li>
+                           <li><strong>Live Feed</strong> — derniers pointages en tableau défilant (~5&nbsp;s).</li>
+                           <li><strong>Gestion</strong> — création de chauffeurs (nom, prénom, badge, site de rattachement).</li>
                         </ul>
-                        <h3>Données envoyées à l’API (exemple)</h3>
-                        <p>Payload typique : <code>id_badge</code>, <code>site_source</code>, <code>action</code>, <code>timestamp_local</code>, <code>groupe_du_jour</code>, <code>entreprise_du_jour</code>. Normalisation métier : <strong>ENTRÉE → ARRIVÉE</strong>, <strong>SORTIE → DÉPART</strong> ; identifiant badge nettoyé (casse, espaces) selon le contrat serveur.</p>
-                        <h3>Réseau &amp; robustesse</h3>
+                        <h3>API — pointage depuis le Pi</h3>
+                        <p><strong>POST</strong> <code>/sync</code> avec en-tête <code>X-API-KEY</code> et corps JSON du type : <code>id_badge</code>, <code>site_source</code>, <code>action</code> (<strong>ARRIVÉE</strong> ou <strong>DÉPART</strong>), <code>timestamp_local</code>. Sites attendus alignés sur la configuration (ex. Saint-Barthélemy, Saumur, Cholet). Les pointages apparaissent sur le dashboard et le live feed après réception.</p>
+                        <h3>API — consommation par le frontend</h3>
+                        <p>Exemples de routes : <code>GET /stats</code>, <code>GET /present-now</code>, <code>GET /logs/recent</code>, <code>GET</code> et <code>POST /chauffeurs</code> pour la gestion des profils.</p>
+                        <h3>Modèle de données (côté serveur)</h3>
                         <ul>
-                           <li>Détection <strong>online / offline</strong> pour adapter l’UI et la fréquence de sync.</li>
-                           <li>Boucle de synchronisation : traitement des enregistrements en attente par petits lots.</li>
-                           <li>Réponses HTTP : succès (2xx) → marquage synchronisé ; <strong>400 / 404</strong> → erreur de requête (souvent sans retry identique) ; <strong>401 / 403</strong> → clé ou droits ; <strong>429</strong> → respect du débit (backoff) ; <strong>5xx</strong> / timeout → nouvelles tentatives puis file d’attente conservée en local.</li>
+                           <li>Table <strong>chauffeurs</strong> — <code>id_badge</code> (clé), nom, prénom, <code>site_rattachement</code>, dates.</li>
+                           <li>Table <strong>logs_pointage</strong> — lien badge, action, <code>site_source</code>, horodatage local.</li>
+                           <li>Vue <strong>v_temps_travail</strong> — calcul du temps de travail par jour et par chauffeur.</li>
                         </ul>
-                        <h3>Base SQLite</h3>
-                        <p>Table des pointages avec indicateur <strong>is_synced</strong> : <code>0</code> = en attente d’envoi ou échec à traiter, <code>1</code> = accusé réception serveur. Requêtes clés : insertion après scan, sélection des lignes non sync ordonnées, mise à jour après POST réussi ou journalisation de la dernière erreur.</p>
-                        <h3>Interface opérateur</h3>
-                        <p>Machine d’états du type <strong>IDLE</strong> → <strong>SCANNED</strong> → <strong>SUCCESS</strong> ou <strong>ERROR</strong> : feedback lisible, timeouts de retour à l’accueil, gestion des badges inconnus selon la règle métier (refus ou enregistrement signalé).</p>
                         <h3>Exploitation</h3>
-                        <p>En cas de « ça ne part plus » : vérifier <code>WEBHOOK_URL</code>, la clé API, les logs <em>sync_manager</em>, et une requête de test <code>curl</code> en POST JSON depuis le même réseau ; contrôler en base le nombre de lignes avec <code>is_synced = 0</code>.</p>
+                        <p>Logs API : <code>docker-compose logs -f api</code> et fichier type <code>api/logs/api.log</code>. En cas de problème de sync depuis le Pi : vérifier URL de l’API, <code>X-API-KEY</code>, réseau, et un <code>curl</code> POST de test sur <code>/sync</code> ; côté terminal, contrôler les enregistrements non synchronisés en SQLite.</p>
                      </div>
                   </article>
 
