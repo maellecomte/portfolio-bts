@@ -107,14 +107,34 @@ if (projectModal) {
 const projectsScroll = document.querySelector('.projects__scroll');
 if (projectsScroll) {
   projectsScroll.addEventListener('wheel', (e) => {
-    if (Math.abs(e.deltaY) < 5) return;
     const maxScroll = projectsScroll.scrollWidth - projectsScroll.clientWidth;
     if (maxScroll <= 0) return;
-    const atStart = projectsScroll.scrollLeft <= 0 && e.deltaY < 0;
-    const atEnd = projectsScroll.scrollLeft >= maxScroll - 1 && e.deltaY > 0;
+
+    let dy = e.deltaY;
+    let dx = e.deltaX;
+    /* Molette classique : deltaMode « ligne » (1) avec petits deltaY — sans ça le seuil < 5 les ignorait */
+    if (e.deltaMode === 1) {
+      const linePx = 32;
+      dy *= linePx;
+      dx *= linePx;
+    } else if (e.deltaMode === 2) {
+      dy *= projectsScroll.clientHeight;
+      dx *= projectsScroll.clientWidth;
+    }
+
+    let scrollDelta = dy;
+    if (e.shiftKey) {
+      scrollDelta = Math.abs(dx) >= Math.abs(dy) ? dx : dy;
+    }
+
+    if (Math.abs(scrollDelta) < 1) return;
+
+    const atStart = projectsScroll.scrollLeft <= 0 && scrollDelta < 0;
+    const atEnd = projectsScroll.scrollLeft >= maxScroll - 1 && scrollDelta > 0;
     if (atStart || atEnd) return;
+
     e.preventDefault();
-    projectsScroll.scrollLeft += e.deltaY;
+    projectsScroll.scrollLeft += scrollDelta;
   }, { passive: false });
 }
 
